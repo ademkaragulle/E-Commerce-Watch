@@ -1,0 +1,31 @@
+.single-product-area:hover .action-links span {
+    opacity: 1;
+    -webkit-transform: scale(1) rotate(0deg);
+    transform: scale(1) rotate(0deg);
+}
+
+.single-product-area .product-thumb .action-links span {
+    background-color: #f1f1f1;
+    border-radius: 100%;
+    color: #434343;
+    display: none;
+    font-size: 16px;
+    font-weight: normal;
+    height: 43px;
+    line-height: 48px;
+    text-align: center;
+    vertical-align: top;
+    width: 43px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.single-product-area .product-thumb .action-links span:hover {
+    background-color: #c89979;
+    color: #f1f1f1;
+}
+
+.single-product-area:hover .product-thumb .action-links span {
+    display: inline-block;
+    /* Hover durumunda span'ı görünür yap */
+}

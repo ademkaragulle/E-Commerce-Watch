@@ -1,0 +1,33 @@
+.btn-login {
+    background-color: #c89979;
+    display: inline;
+    padding: 6px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #fff;
+    transition: .2s;
+}
+
+.btn-login:hover {
+    background-color: #000000;
+}
+
+
+.searchToggle {
+    position: absolute;
+    background-color: #fff;
+    top: 46px;
+    width: 100%;
+    border-radius: 4px;
+    z-index: 100;
+}
+
+.searchHover {
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.searchHover:hover {
+    background-color: rgb(203, 203, 203);
+}
