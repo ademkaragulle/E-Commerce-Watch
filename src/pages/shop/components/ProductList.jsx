@@ -36,8 +36,8 @@ function ProductList() {
 
     const addfavorite = async (product) => {
         if (currentUser) {
-            await dispatch(addToFavorite({ ...product, "currentUser": currentUser.id }))
-            await dispatch(getFavorite(currentUser.id))
+            await dispatch(addToFavorite({ "username": currentUser.username, "productId": product.id }))
+            await dispatch(getFavorite(currentUser.username))
         }
         else {
             alert("Lütfen Giriş Yapınız")

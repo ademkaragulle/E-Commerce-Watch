@@ -1,5 +1,4 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts } from '../../../store/slices/productSlice'
 import { addToCart } from '../../../store/slices/cartSlice'
@@ -18,8 +17,6 @@ function ProductArea() {
 
     const bestProduct = data && data.filter(x => x.categoryId == 3)
 
-
-
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(fetchProducts())
@@ -30,10 +27,11 @@ function ProductArea() {
         dispatch(addToCart(product))
     }
 
-    const addfavorite = async (product) => {
+
+    const addfavorite = async (product, user) => {
         if (currentUser) {
-            await dispatch(addToFavorite({ ...product, "currentUser": currentUser.id }))
-            await dispatch(getFavorite(currentUser.id))
+            await dispatch(addToFavorite({ "username": currentUser.username, "productId": product.id }))
+            await dispatch(getFavorite(currentUser.username))
         }
         else {
             alert("Lütfen Giriş Yapınız")
@@ -84,7 +82,7 @@ function ProductArea() {
                                             </span>
                                             <span
                                                 style={{ cursor: "pointer" }}
-                                                onClick={() => addfavorite(item)}
+                                                onClick={() => addfavorite(item, currentUser)}
                                                 className="wishlist-btn"
                                                 title="Add to Wish List"
                                             >
