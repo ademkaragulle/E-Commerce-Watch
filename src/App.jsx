@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer'
@@ -15,10 +15,24 @@ import Checkout from './pages/checkout/CheckOut'
 import LoginRegister from './pages/login-register/LoginRegister'
 import BlogDetailPage from './pages/blog-detail/BlogDetailPage'
 import ProductDetail from './pages/product-detail/ProductDetailPage'
+import { useDispatch, useSelector } from 'react-redux'
+import { IsExistToken } from './store/slices/userSlice'
 
 
 
 function App() {
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const storedAuthToken = sessionStorage.getItem('authToken');
+    const storedUser = sessionStorage.getItem('user');
+    const user = {
+      token: storedAuthToken,
+      user: storedUser
+    }
+    dispatch(IsExistToken(user))
+  }, [])
+
 
   return (
     <>
