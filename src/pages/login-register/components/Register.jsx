@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { SignUp } from '../../../store/slices/userSlice'
+import { signUp } from '../../../store/slices/userSlice'
 
 function Register() {
     const [userName, setUserName] = useState("")
@@ -12,11 +12,11 @@ function Register() {
     const dispatch = useDispatch();
     const Login = () => {
         const newUSer = {
-            "userName": userName,
+            "username": userName,
             "email": email,
             "password": password
         }
-        dispatch(SignUp(newUSer))
+        dispatch(signUp(newUSer))
     }
 
     return (
