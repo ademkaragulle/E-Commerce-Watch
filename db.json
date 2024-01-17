@@ -257,6 +257,12 @@
       "email": "b",
       "password": "b",
       "id": 2
+    },
+    {
+      "userName": "as",
+      "email": "as",
+      "password": "as",
+      "id": 3
     }
   ],
   "BlogComments": [
@@ -369,6 +375,20 @@
         }
       ],
       "date": "31.12.2023"
+    },
+    {
+      "id": "95d5559f-8fe1",
+      "name": "",
+      "surname": "",
+      "address1": "",
+      "address2": "",
+      "town": "",
+      "state": "",
+      "postCode": "",
+      "phone": "",
+      "email": "",
+      "orders": [],
+      "date": "14.1.2024"
     }
   ],
   "favorites": [
@@ -410,6 +430,35 @@
       "oldPrice": "49.00",
       "gender": "unisex",
       "currentUser": 2
+    },
+    {
+      "id": 25,
+      "categoryId": 3,
+      "category": null,
+      "name": "Product 010",
+      "slug": "blog-010",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "image": "assets/images/product/product-13.png",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "newPrice": 45,
+      "oldPrice": 69,
+      "gender": "unisex"
+    },
+    {
+      "product": {
+        "requestId": "PE6-uPmR9hxk6urbFHyuq",
+        "signal": {}
+      },
+      "id": 26
+    },
+    {
+      "productId": 28,
+      "id": 27
+    },
+    {
+      "username": "a",
+      "productId": 28,
+      "id": 28
     }
   ],
   "messages": [
