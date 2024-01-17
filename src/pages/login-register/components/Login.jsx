@@ -31,7 +31,7 @@ function Login() {
     return (
         <>
             {
-                currentUser == null ? <div id="lg1" className="tab-pane active">
+                !currentUser ? < div id="lg1" className="tab-pane active">
                     <div className="login-form-container">
                         <div className="login-register-form">
                             <div>
@@ -55,7 +55,7 @@ function Login() {
                             </div>
                         </div>
                     </div>
-                </div> :
+                </div > :
                     redirectoAction()
             }
         </>
