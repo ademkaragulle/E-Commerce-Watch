@@ -61,9 +61,9 @@ function CartList() {
                                                         <span className="amount">${item.newPrice}</span>
                                                     </td>
                                                     <td className="plantmore-product-quantity">
-                                                        <span onClick={() => dispatch(increaseQuantity(item.id))} style={{ cursor: "pointer", padding: "10px", margin: "5px" }}><i class="fa-solid fa-plus"></i></span>
+                                                        <span onClick={() => dispatch(increaseQuantity(item.id))} style={{ cursor: "pointer", padding: "10px", margin: "5px" }}><i className="fa-solid fa-plus"></i></span>
                                                         <span>{item.quantity}</span>
-                                                        <span onClick={() => dispatch(decreaseQuantity(item.id))} style={{ cursor: "pointer", padding: "10px", margin: "5px" }}><i class="fa-solid fa-minus"></i></span>
+                                                        <span onClick={() => dispatch(decreaseQuantity(item.id))} style={{ cursor: "pointer", padding: "10px", margin: "5px" }}><i className="fa-solid fa-minus"></i></span>
                                                     </td>
                                                     <td className="product-subtotal">
                                                         <span className="amount">${item.quantity * item.newPrice}</span>

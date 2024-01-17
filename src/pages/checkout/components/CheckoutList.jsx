@@ -20,9 +20,18 @@ function CheckoutList() {
     const CheckoutSubmit = async () => {
         const date = new Date()
         if (currentUser) {
+            const token = await sessionStorage.getItem('authToken')
+
+            const headers = await {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "text/plain",
+                    "Authorization": "Bearer " + token
+                }
+            }
+
             const newBill = {
-                "currentUser": currentUser.id,
-                "id": uuid().slice(0, 13),
+                "username": currentUser.username,
                 "name": name,
                 "surname": surname,
                 "address1": address1,
@@ -33,10 +42,8 @@ function CheckoutList() {
                 "phone": phone,
                 "email": email,
                 "orders": cart,
-                "date": `${date.getDate()}.${date.getMonth() + 1}.${date.getUTCFullYear()}`
             }
-
-            await axios.post('http://localhost:3000/orders', newBill)
+            const response = await axios.post('https://localhost:7267/postOrder', newBill, headers)
                 .catch(error => {
                     console.error('İstek hatası:', error);
                 });

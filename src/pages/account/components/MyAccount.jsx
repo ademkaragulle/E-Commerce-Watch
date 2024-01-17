@@ -15,12 +15,22 @@ function MyAccount() {
 
 
     const fetchOrder = async () => {
-        let res = await axios.get("http://localhost:3000/orders");
-        let response = res.data.filter(x => x.currentUser == currentUser.id);
-        console.log(response.orders)
-        console.log(response)
+        if (currentUser) {
 
-        setOrders(response)
+            const token = await sessionStorage.getItem('authToken')
+
+            const headers = await {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "text/plain",
+                    "Authorization": "Bearer " + token
+                }
+            }
+
+            let res = await axios.get(`https://localhost:7267/getOrder/${currentUser.username}`, headers);
+            let response = res.data.filter(x => x.currentUser == currentUser.id);
+            setOrders(response)
+        }
     }
 
     useEffect(() => {
@@ -31,7 +41,7 @@ function MyAccount() {
     const totalPrice = (items) => {
         let total = 0
         items.forEach(item => {
-            total += item.newPrice * item.quantity
+            total += item.product.newPrice * item.quantity
         });
         return total
     }
@@ -48,7 +58,7 @@ function MyAccount() {
                                     <div className="col-lg-3 col-md-12">
                                         <div className="d-single-info">
                                             <p className="user-name">
-                                                Hello <span>{currentUser && currentUser.userName}</span>
+                                                Hello <span>{currentUser && currentUser.username}</span>
                                             </p>
 
                                         </div>
@@ -117,28 +127,46 @@ function MyAccount() {
                                         <div className="tab-pane fade" id="orders">
                                             <h3>Orders</h3>
                                             <div className="table-responsive">
-                                                <table className="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Order Id</th>
-                                                            <th>Date</th>
-                                                            <th>Total</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                                {
+                                                    orders && orders.map((order, index) => (
+                                                        <span key={index}>
+                                                            <h4>Order {order.orderId}</h4>
+                                                            <p>Date: <small className='text-danger'>{order.orderDate.substring(0, 10)}</small></p>
+                                                            <hr />
+                                                            <table className="table mb-5">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Image</th>
+                                                                        <th>Name</th>
+                                                                        <th>Gender</th>
+                                                                        <th>Quantity</th>
+                                                                        <th>New Price</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        order.orderList && order.orderList.map((item, index2) => (
+                                                                            <tr key={index2}>
+                                                                                <td><img style={{ width: "70px" }} src={item.product.image} /></td>
+                                                                                <td>{item.product.name}</td>
+                                                                                <td>{item.product.gender}</td>
+                                                                                <td>{item.quantity}</td>
+                                                                                <td>{item.product.newPrice} $</td>
+                                                                            </tr>
+                                                                        ))
 
-                                                        {
-                                                            orders && orders.map((item, index) => (
-                                                                <tr>
-                                                                    <td>{item.id}</td>
-                                                                    <td>{item.date}</td>
-                                                                    <td>$ {totalPrice(item.orders)}</td>
-                                                                </tr>
-                                                            ))
-                                                        }
-
-                                                    </tbody>
-                                                </table>
+                                                                    }
+                                                                    {
+                                                                        order.orderList && <tr>
+                                                                            <td colSpan={4}></td>
+                                                                            <td className='text-success'>TotalPrice: {totalPrice(order.orderList)} $</td>
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </span>
+                                                    ))
+                                                }
                                             </div>
                                         </div>
 

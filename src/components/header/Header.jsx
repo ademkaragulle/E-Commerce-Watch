@@ -4,7 +4,8 @@ import './Header.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { getFavorite } from '../../store/slices/favoriteSlices'
 import { removeFromCart } from '../../store/slices/cartSlice'
-import { Logout, getUserInformation } from '../../store/slices/userSlice'
+// import { getUserInformation } from '../../store/slices/userSlice'
+import { Logout } from '../../store/slices/userSlice'
 
 function Header() {
     const [token, setToken] = useState("")
@@ -20,16 +21,16 @@ function Header() {
             currentUser: store.currentUser.currentUser,
         }
     })
+
+
     const storedToken = sessionStorage.getItem('authToken');
     const dispatch = useDispatch()
     useEffect(() => {
-        console.log(storedToken)
         if (storedToken) {
             setToken(storedToken);
         }
-        currentUser && dispatch(getFavorite(currentUser.id))
+        currentUser && dispatch(getFavorite(currentUser.username))
         !currentUser && dispatch(getFavorite(null))
-
     }, [dispatch, currentUser])
 
 
@@ -42,9 +43,9 @@ function Header() {
     }
 
     const Logoutbtn = () => {
-        dispatch(getUserInformation())
-        // dispatch(getFavorite(null))
-        // dispatch(Logout())
+        // dispatch(getUserInformation())
+        dispatch(getFavorite(null))
+        dispatch(Logout())
     }
     useEffect(() => {
 
@@ -76,11 +77,11 @@ function Header() {
                     <div className="row">
                         <div className="col-6 d-flex align-items-center">
                             {
-                                !token ?
+                                !currentUser ?
                                     <Link to={"login-register"} className='btn-login'>Login</Link>
                                     :
                                     <>
-                                        <span className='text-light me-3'>Welcome {currentUser&& currentUser}</span>
+                                        <Link to="my-account" className='text-light me-3'>Welcome {currentUser && currentUser.username}</Link>
                                         <div style={{ cursor: "pointer" }} onClick={() => Logoutbtn()} className='btn-login'>Logout</div>
                                     </>
                             }

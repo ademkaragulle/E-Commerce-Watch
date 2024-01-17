@@ -1,18 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToFavorite, getFavorite } from '../../../store/slices/favoriteSlices'
-import { Link } from 'react-router-dom'
+import { addToFavorite, getFavorite, removeToFavorite } from '../../../store/slices/favoriteSlices'
+import { Link, json } from 'react-router-dom'
 import { addToCart } from '../../../store/slices/cartSlice'
 
 function Wishlist() {
-
-
-    const dispatch = useDispatch()
-    useEffect(() => {
-        currentUser &&
-            dispatch(getFavorite(currentUser.id))
-    }, [])
-
 
     const { data, currentUser } = useSelector((store) => {
         return {
@@ -20,6 +12,13 @@ function Wishlist() {
             currentUser: store.currentUser.currentUser,
         }
     })
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if (currentUser) {
+            dispatch(getFavorite(currentUser.username))
+        }
+    }, [])
 
 
     const handleLinkScrollClick = () => {
@@ -30,10 +29,12 @@ function Wishlist() {
         dispatch(addToCart(item))
     }
 
+
+
     const removeFavorite = async (product) => {
         if (currentUser) {
-            await dispatch(addToFavorite({ ...product, "currentUser": currentUser.id }))
-            await dispatch(getFavorite(currentUser.id))
+            await dispatch(removeToFavorite({ "username": currentUser.username, "productId": product.id }))
+            await dispatch(getFavorite(currentUser.username))
         }
         else {
             alert("Lütfen Giriş Yapınız")

@@ -1,29 +1,63 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const addToFavorite = createAsyncThunk("addToFavorite", async (product) => {
-    const response = await axios.get(`http://localhost:3000/favorites`)
-    let data = await response.data
-    const existingProduct = await data.find(item => item.id === product.id);
-    if (!existingProduct) {
-        await axios.post('http://localhost:3000/favorites', product)
+export const addToFavorite = createAsyncThunk("addToFavorite", async (item) => {
+    const token = await sessionStorage.getItem('authToken')
+
+    const headers = await {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "text/plain",
+            "Authorization": "Bearer " + token
+        }
+    }
+
+    const response = await axios.put('https://localhost:7267/addWishlist', item, headers)
+        .catch(error => {
+            console.error('İstek hatası:', error);
+        });
+    getFavorite(item.username)
+})
+export const removeToFavorite = createAsyncThunk("removeToFavorite", async (item) => {
+    const token = await sessionStorage.getItem('authToken')
+
+    const headers = await {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "text/plain",
+            "Authorization": "Bearer " + token
+        }
+    }
+
+
+    try {
+        const response = await axios.delete('https://localhost:7267/removeToWishlist', { data: item }, headers);
+        return response.data;
+    } catch (error) {
+        console.error('İstek hatası:', error);
+        throw error;
+    }
+})
+
+export const getFavorite = createAsyncThunk("getFavorite", async (username) => {
+
+    const token = await sessionStorage.getItem('authToken')
+
+    const headers = await {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "text/plain",
+            "Authorization": "Bearer " + token
+        }
+    }
+
+
+    if (username != null) {
+        const response = await axios.post(`https://localhost:7267/wishlist/${username}`, null, headers)
             .catch(error => {
                 console.error('İstek hatası:', error);
             });
-    } else {
-        await axios.delete(`http://localhost:3000/favorites/${product.id}`)
-            .catch(error => {
-                console.error('Silme hatası:', error);
-            })
-    }
-    getFavorite(product.CurrentId)
-})
-
-export const getFavorite = createAsyncThunk("getFavorite", async (CurrentUserId) => {
-    if (CurrentUserId != null) {
-        const response = await axios.get(`http://localhost:3000/favorites`)
-        const filteredFav = await response.data.filter(x => x.currentUser == CurrentUserId)
-        const data = await filteredFav
+        const data = await response.data
         return data
     } else {
         return null
@@ -39,6 +73,9 @@ const favoriteSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getFavorite.fulfilled, (state, action) => {
             state.favoriteItems = action.payload
+        });
+        builder.addCase(removeToFavorite.fulfilled, (state, action) => {
+            console.log('favorilerden çıkarıldı.')
         })
     }
 });
